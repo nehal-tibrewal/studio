@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/hooks/use-auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,12 +16,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarIcon, LogIn } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters long."),
@@ -35,7 +36,6 @@ const formSchema = z.object({
 });
 
 export default function SubmitPage() {
-  const { user, loading, signInWithGoogle } = useAuth();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,35 +50,48 @@ export default function SubmitPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Form Submitted:", values);
-    toast({
-      title: "Event Submitted!",
-      description: "Your event has been submitted for review.",
-    });
-    form.reset();
-  }
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+     if (!db) {
+      toast({
+        variant: "destructive",
+        title: "Database Not Configured",
+        description: "Please configure Firebase in your .env file to submit events.",
+      });
+      console.log("Form Submitted (local - not saved):", values);
+      return;
+    }
+    
+    try {
+      const eventDateTime = new Date(values.date);
+      const [hours, minutes] = values.time.split(':').map(Number);
+      eventDateTime.setHours(hours, minutes);
 
-  if (loading) {
-    return <div className="container p-8 text-center">Loading...</div>;
-  }
+      const newEvent = {
+        title: values.title,
+        description: values.description,
+        address: values.address,
+        date: eventDateTime.toISOString(),
+        tags: values.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+        imageUrl: values.imageUrl || '',
+        createdAt: serverTimestamp(),
+      };
 
-  if (!user) {
-    return (
-      <div className="container mx-auto max-w-xl px-4 py-12 text-center">
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-headline text-2xl">Authentication Required</CardTitle>
-            <CardDescription>You need to be signed in to submit an event.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button onClick={signInWithGoogle}>
-              <LogIn className="mr-2 h-4 w-4" /> Sign In with Google
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
+      const docRef = await addDoc(collection(db, "events"), newEvent);
+      
+      console.log("Document written with ID: ", docRef.id);
+      toast({
+        title: "Event Submitted!",
+        description: "Your event has been successfully saved.",
+      });
+      form.reset();
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      toast({
+        variant: "destructive",
+        title: "Submission Failed",
+        description: "There was an error saving your event. Please try again.",
+      });
+    }
   }
 
   return (

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AuthButton } from "./auth-button";
 import { Button } from "./ui/button";
 
 export function Header() {
@@ -15,7 +14,6 @@ export function Header() {
            <Button asChild variant="ghost">
              <Link href="/submit">Submit Event</Link>
            </Button>
-          <AuthButton />
         </div>
       </div>
     </header>
