@@ -69,9 +69,9 @@ export function SceneBot() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
             <Wand2 className="h-8 w-8" />
           </div>
-          <CardTitle className="font-headline text-3xl">Nothing on the Radar?</CardTitle>
+          <CardTitle className="font-headline text-3xl">Your Personal Event Scout</CardTitle>
           <CardDescription>
-            It's quiet out there. Let SceneBot suggest some cool spots for you.
+            We’ll help you find the vibe. Just tell me what you're looking for.
           </CardDescription>
         </CardHeader>
         <Form {...form}>
@@ -82,9 +82,9 @@ export function SceneBot() {
                 name="userLocation"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Enter your location or neighborhood</FormLabel>
+                    <FormLabel>Enter your location or an interest</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Koramangala, Bangalore" {...field} />
+                      <Input placeholder="e.g., Koramangala, or 'live music'" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

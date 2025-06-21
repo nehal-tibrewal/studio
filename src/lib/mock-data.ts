@@ -146,7 +146,7 @@ export const mockEvents: Event[] = [
     date: formatISO(addDays(now, 11)),
     tags: ["Poetry", "Performance", "Art"],
     imageUrl: "https://placehold.co/600x400.png",
-    "data-ai-hint": "person microphone",
+    "data-ai-hint": "poetry slam",
   },
   {
     id: "15",
@@ -256,7 +256,7 @@ export const mockEvents: Event[] = [
     date: formatISO(addDays(now, 22)),
     tags: ["Workshop", "Sustainability", "Eco-friendly"],
     imageUrl: "https://placehold.co/600x400.png",
-    "data-ai-hint": "recycled materials",
+    "data-ai-hint": "sustainable living",
   },
   {
     id: "26",

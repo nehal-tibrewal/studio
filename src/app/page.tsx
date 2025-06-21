@@ -41,6 +41,10 @@ export default function Home() {
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-8 space-y-12">
+      <SceneBot />
+
+      <Separator />
+
       {upcomingEvents.length > 0 && (
         <div>
           <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground md:text-5xl">
@@ -56,10 +60,6 @@ export default function Home() {
           </div>
         </div>
       )}
-      
-      <Separator />
-
-      <SceneBot />
     </div>
   );
 }
