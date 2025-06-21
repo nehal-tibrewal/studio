@@ -13,13 +13,26 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SuggestActivitiesInputSchema = z.object({
-  userLocation: z.string().describe('The current location of the user.'),
+  interest: z.string().describe('The user interest, like "live music" or "tech workshops".'),
 });
 
 export type SuggestActivitiesInput = z.infer<typeof SuggestActivitiesInputSchema>;
 
+const SuggestedEventSchema = z.object({
+  title: z.string().describe('The creative and catchy title of the event.'),
+  description: z
+    .string()
+    .describe('A compelling, short description of the event (2-3 sentences).'),
+  category: z
+    .string()
+    .describe('A single, relevant category for the event (e.g., Music, Tech, Art, Food, Workshop).'),
+  location: z
+    .string()
+    .describe('A plausible, fictional, or real-sounding location for the event in Bangalore.'),
+});
+
 const SuggestActivitiesOutputSchema = z.object({
-  suggestions: z.array(z.string()).describe('A list of suggested activities or spots.'),
+  suggestions: z.array(SuggestedEventSchema).describe('A list of 3-5 suggested events.'),
 });
 
 export type SuggestActivitiesOutput = z.infer<typeof SuggestActivitiesOutputSchema>;
@@ -32,11 +45,13 @@ const prompt = ai.definePrompt({
   name: 'suggestActivitiesPrompt',
   input: {schema: SuggestActivitiesInputSchema},
   output: {schema: SuggestActivitiesOutputSchema},
-  prompt: `Suggest some local spots or activities for a user in the following location:
+  prompt: `You are SceneBLR, an expert event scout for Bangalore. You find the coolest, most interesting events happening in the city, similar to what one might find on Luma, BookMyShow, or Insider.
 
-Location: {{{userLocation}}}
+A user is looking for events related to their interest: '{{{interest}}}'
 
-Suggestions:`, // Handlebars
+Generate a list of 3 to 5 creative and realistic-sounding event suggestions in Bangalore based on their interest.
+
+For each suggestion, provide a unique title, a compelling description, a relevant category, and a plausible-sounding location in Bangalore.`,
 });
 
 const suggestActivitiesFlow = ai.defineFlow(
