@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useState, useEffect, type ReactNode } from "react";
-import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut, type User } from "firebase/auth";
-import { app } from "@/lib/firebase";
+import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut, type User } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 interface AuthContextType {
   user: User | null;
@@ -13,21 +13,32 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const auth = getAuth(app);
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    if (auth) {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setUser(user);
+        setLoading(false);
+      });
+      return () => unsubscribe();
+    } else {
+      // Firebase is not configured.
+      setUser(null);
       setLoading(false);
-    });
-    return () => unsubscribe();
+    }
   }, []);
 
   const signInWithGoogle = async () => {
+    if (!auth) {
+      const message = "Firebase is not configured. Please add your credentials to the .env file to enable sign-in.";
+      console.error(message);
+      // Using alert for more visible feedback for the developer
+      alert(message);
+      return;
+    }
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
@@ -37,6 +48,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
+    if (!auth) {
+      console.error("Firebase is not configured. Logout is disabled.");
+      return;
+    }
     try {
       await signOut(auth);
     } catch (error) {
@@ -48,7 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };
