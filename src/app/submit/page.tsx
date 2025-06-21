@@ -32,7 +32,7 @@ const formSchema = z.object({
   date: z.date({ required_error: "A date for the event is required." }),
   time: z.string().min(1, "Time is required."),
   tags: z.string().min(3, "Please enter at least one tag."),
-  imageUrl: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
+  imageUrl: z.string().optional().or(z.literal('')),
 });
 
 export default function SubmitPage() {
@@ -192,8 +192,28 @@ export default function SubmitPage() {
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Image URL (Optional)</FormLabel>
-                    <FormControl><Input placeholder="https://example.com/image.png" {...field} /></FormControl>
+                    <FormLabel>Event Image (Optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/png, image/jpeg, image/webp"
+                        onChange={(event) => {
+                          const file = event.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => {
+                              if (typeof reader.result === 'string') {
+                                field.onChange(reader.result);
+                              }
+                            };
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Upload a poster or image for your event.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

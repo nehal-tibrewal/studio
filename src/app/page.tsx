@@ -5,24 +5,22 @@ import { EventCard } from "@/components/event-card";
 import { SceneBot } from "@/components/scene-bot";
 import { mockEvents } from "@/lib/mock-data";
 import type { Event } from "@/lib/types";
-import { addHours, isAfter } from "date-fns";
+import { isAfter } from "date-fns";
+import { Separator } from '@/components/ui/separator';
 
 export default function Home() {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
-  const [showSceneBot, setShowSceneBot] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const now = new Date();
-    const threeHoursFromNow = addHours(now, 3);
     
-    const filteredEvents = mockEvents.filter(event => {
-      const eventDate = new Date(event.date);
-      return isAfter(eventDate, now) && isAfter(threeHoursFromNow, eventDate);
-    });
+    // Filter for all future events and sort them by date
+    const filteredEvents = mockEvents
+      .filter(event => isAfter(new Date(event.date), now))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     setUpcomingEvents(filteredEvents);
-    setShowSceneBot(filteredEvents.length === 0);
     setIsLoading(false);
   }, []);
 
@@ -42,16 +40,14 @@ export default function Home() {
   }
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-8">
-      {showSceneBot ? (
-        <SceneBot />
-      ) : (
+    <div className="container mx-auto max-w-3xl px-4 py-8 space-y-12">
+      {upcomingEvents.length > 0 && (
         <div>
           <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-            Happening Soon
+            Upcoming Events
           </h1>
           <p className="mt-2 text-lg text-muted-foreground">
-            Events happening in the next 3 hours near you.
+            Check out these exciting events happening in Bangalore.
           </p>
           <div className="mt-8 space-y-6">
             {upcomingEvents.map((event) => (
@@ -60,6 +56,10 @@ export default function Home() {
           </div>
         </div>
       )}
+      
+      <Separator />
+
+      <SceneBot />
     </div>
   );
 }
