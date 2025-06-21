@@ -1,6 +1,7 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
 import { getAuth, type Auth } from "firebase/auth";
 import { getFirestore, type Firestore } from "firebase/firestore";
+import { getStorage, type FirebaseStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,6 +15,7 @@ const firebaseConfig = {
 let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
 let db: Firestore | null = null;
+let storage: FirebaseStorage | null = null;
 
 // Only initialize Firebase if the API key is provided and not a placeholder.
 if (firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('your-')) {
@@ -21,6 +23,7 @@ if (firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('your-')) {
     app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
     auth = getAuth(app);
     db = getFirestore(app);
+    storage = getStorage(app);
   } catch (e) {
     console.error("Failed to initialize Firebase. Please check your credentials in the .env file.", e);
   }
@@ -28,4 +31,4 @@ if (firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('your-')) {
   console.warn("Firebase configuration is missing or is a placeholder. Firebase features will be disabled. Please add your credentials to the .env file.");
 }
 
-export { app, auth, db };
+export { app, auth, db, storage };

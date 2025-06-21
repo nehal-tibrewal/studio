@@ -22,8 +22,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { db } from "@/lib/firebase";
+import { db, storage } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters long."),
@@ -32,7 +33,7 @@ const formSchema = z.object({
   date: z.date({ required_error: "A date for the event is required." }),
   time: z.string().min(1, "Time is required."),
   tags: z.string().min(3, "Please enter at least one tag."),
-  imageUrl: z.string().optional().or(z.literal('')),
+  imageUrl: z.any().optional(),
 });
 
 export default function SubmitPage() {
@@ -46,12 +47,12 @@ export default function SubmitPage() {
       address: "",
       time: "",
       tags: "",
-      imageUrl: "",
+      imageUrl: null,
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-     if (!db) {
+     if (!db || !storage) {
       toast({
         variant: "destructive",
         title: "Database Not Configured",
@@ -62,6 +63,17 @@ export default function SubmitPage() {
     }
     
     try {
+      let imageUrl = "";
+      const imageFile = values.imageUrl?.[0];
+
+      if (imageFile) {
+        toast({ title: "Uploading image..." });
+        const storageRef = ref(storage, `event-images/${Date.now()}-${imageFile.name}`);
+        const uploadResult = await uploadBytes(storageRef, imageFile);
+        imageUrl = await getDownloadURL(uploadResult.ref);
+        toast({ title: "Image uploaded successfully!" });
+      }
+
       const eventDateTime = new Date(values.date);
       const [hours, minutes] = values.time.split(':').map(Number);
       eventDateTime.setHours(hours, minutes);
@@ -72,7 +84,7 @@ export default function SubmitPage() {
         address: values.address,
         date: eventDateTime.toISOString(),
         tags: values.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-        imageUrl: values.imageUrl || '',
+        imageUrl: imageUrl,
         createdAt: serverTimestamp(),
       };
 
@@ -198,16 +210,7 @@ export default function SubmitPage() {
                         type="file"
                         accept="image/png, image/jpeg, image/webp"
                         onChange={(event) => {
-                          const file = event.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onload = () => {
-                              if (typeof reader.result === 'string') {
-                                field.onChange(reader.result);
-                              }
-                            };
-                          }
+                          field.onChange(event.target.files);
                         }}
                       />
                     </FormControl>
