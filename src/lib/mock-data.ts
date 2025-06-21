@@ -309,4 +309,16 @@ export const mockEvents: Event[] = [
     imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "rock climbing",
   },
+  {
+    id: "31",
+    title: "Sound Bathing Experience",
+    description: "Immerse yourself in a relaxing sound bath experience. Let the soothing sounds of singing bowls wash over you, promoting deep relaxation and stress relief.",
+    address: "12th Main Road, Indiranagar, Bengaluru, Karnataka 560038",
+    date: formatISO(addDays(now, 28)),
+    tags: ["Wellness", "Relaxation", "Sound Healing"],
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
+    "data-ai-hint": "sound healing",
+  },
 ];
+
+    
