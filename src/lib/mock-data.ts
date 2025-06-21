@@ -1,3 +1,4 @@
+
 import type { Event } from "./types";
 import { addHours, addDays, formatISO } from "date-fns";
 
@@ -12,7 +13,7 @@ export const mockEvents: Event[] = [
     address: "100 Feet Road, Indiranagar, Bengaluru, Karnataka 560038",
     date: formatISO(addHours(now, 1)),
     tags: ["Music", "Live", "Indie"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "music concert",
   },
   {
@@ -23,7 +24,7 @@ export const mockEvents: Event[] = [
     address: "WeWork, EPIP Zone, Whitefield, Bengaluru, Karnataka 560066",
     date: formatISO(addHours(now, 2.5)),
     tags: ["Tech", "Networking", "Business"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "business meeting",
   },
   {
@@ -34,7 +35,7 @@ export const mockEvents: Event[] = [
     address: "80 Feet Road, Koramangala 4th Block, Bengaluru, Karnataka 560034",
     date: formatISO(addHours(now, 5)),
     tags: ["Comedy", "Open Mic", "Entertainment"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "comedy club",
   },
   {
@@ -45,7 +46,7 @@ export const mockEvents: Event[] = [
     address: "Palace Grounds, Jayamahal Main Rd, Bengaluru, Karnataka 560006",
     date: formatISO(addDays(now, 1)),
     tags: ["Market", "Food", "Local"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "farmers market",
   },
   {
@@ -55,7 +56,7 @@ export const mockEvents: Event[] = [
     address: "MG Road, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka 560001",
     date: formatISO(addDays(now, 2)),
     tags: ["Art", "Tech", "Exhibition"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "art gallery",
   },
   {
@@ -65,7 +66,7 @@ export const mockEvents: Event[] = [
     address: "Cubbon Park, Kasturba Road, Bengaluru, Karnataka 560001",
     date: formatISO(addDays(now, 3)),
     tags: ["Wellness", "Yoga", "Outdoors"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "yoga park",
   },
   {
@@ -75,7 +76,7 @@ export const mockEvents: Event[] = [
     address: "Bangalore International Exhibition Centre (BIEC), 10th Mile, Tumkur Road, Bengaluru, Karnataka 562123",
     date: formatISO(addDays(now, 10)),
     tags: ["Tech", "Conference", "AI"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "tech conference",
   },
   {
@@ -85,7 +86,7 @@ export const mockEvents: Event[] = [
     address: "VV Puram Food Street, Visveswarapuram, Basavanagudi, Bengaluru, Karnataka 560004",
     date: formatISO(addDays(now, 4)),
     tags: ["Food", "Festival", "Culture"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "food festival",
   },
   {
@@ -95,7 +96,7 @@ export const mockEvents: Event[] = [
     address: "PVR Cinemas, Orion Mall, Dr Rajkumar Rd, Rajajinagar, Bengaluru, Karnataka 560055",
     date: formatISO(addDays(now, 5)),
     tags: ["Movies", "Entertainment", "Retro"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "movie theater",
   },
   {
@@ -105,7 +106,7 @@ export const mockEvents: Event[] = [
     address: "Lalbagh Botanical Garden, Mavalli, Bengaluru, Karnataka 560004",
     date: formatISO(addDays(now, 6)),
     tags: ["Workshop", "Photography", "Art"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "camera lens",
   },
   {
@@ -115,7 +116,7 @@ export const mockEvents: Event[] = [
     address: "Windmills Craftworks, 331, 5B Road, EPIP Zone, Whitefield, Bengaluru, Karnataka 560066",
     date: formatISO(addDays(now, 7)),
     tags: ["Music", "Jazz", "Live"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "jazz club",
   },
   {
@@ -125,7 +126,7 @@ export const mockEvents: Event[] = [
     address: "Atta Galatta, 178, 5th Main, 9th Cross, 1st Stage, Indiranagar, Bengaluru, Karnataka 560038",
     date: formatISO(addDays(now, 8)),
     tags: ["Books", "Community", "Literature"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "books library",
   },
   {
@@ -135,7 +136,7 @@ export const mockEvents: Event[] = [
     address: "Pebble The Jungle Lounge, #3, Ramana Maharishi Road, Palace Grounds, Sadashivanagar, Bengaluru, Karnataka 560080",
     date: formatISO(addDays(now, 9)),
     tags: ["Music", "Party", "EDM"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "dj concert",
   },
   {
@@ -145,7 +146,7 @@ export const mockEvents: Event[] = [
     address: "Urban Solace, 32, Annaswamy Mudaliar Road, Bengaluru, Karnataka 560042",
     date: formatISO(addDays(now, 11)),
     tags: ["Poetry", "Performance", "Art"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "poetry slam",
   },
   {
@@ -155,7 +156,7 @@ export const mockEvents: Event[] = [
     address: "GreenMyLife, 4th Cross, 2nd Main Road, Domlur II Stage, Bengaluru, Karnataka 560071",
     date: formatISO(addDays(now, 12)),
     tags: ["Workshop", "Gardening", "DIY"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "potted plants",
   },
   {
@@ -165,7 +166,7 @@ export const mockEvents: Event[] = [
     address: "Bangalore Fort, New Tharagupet, Bengaluru, Karnataka 560002",
     date: formatISO(addDays(now, 13)),
     tags: ["History", "Tour", "Culture"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "historic building",
   },
   {
@@ -175,7 +176,7 @@ export const mockEvents: Event[] = [
     address: "Victory Point, 3rd Floor, 18, 17th Main Rd, KHB Colony, 5th Block, Koramangala, Bengaluru, Karnataka 560095",
     date: formatISO(addDays(now, 14)),
     tags: ["Games", "Social", "Community"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "board game",
   },
   {
@@ -185,7 +186,7 @@ export const mockEvents: Event[] = [
     address: "La Rumba, 5th Floor, 12, Magrath Road, Above GKB Opticals, Bengaluru, Karnataka 560025",
     date: formatISO(addDays(now, 15)),
     tags: ["Dance", "Salsa", "Social"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "dancing couple",
   },
   {
@@ -195,7 +196,7 @@ export const mockEvents: Event[] = [
     address: "WeWork, Galaxy, 43, Residency Road, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka 560025",
     date: formatISO(addDays(now, 16)),
     tags: ["Tech", "AI", "Networking"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "artificial intelligence",
   },
   {
@@ -205,7 +206,7 @@ export const mockEvents: Event[] = [
     address: "Claytopia, 11, 80 Feet Road, Koramangala 1st Block, Bengaluru, Karnataka 560034",
     date: formatISO(addDays(now, 17)),
     tags: ["Art", "Workshop", "Craft"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "pottery wheel",
   },
   {
@@ -215,7 +216,7 @@ export const mockEvents: Event[] = [
     address: "Nandi Hills, Karnataka 562103",
     date: formatISO(addDays(now, 18)),
     tags: ["Outdoors", "Cycling", "Adventure"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "hills sunrise",
   },
   {
@@ -225,7 +226,7 @@ export const mockEvents: Event[] = [
     address: "Grover Zampa Vineyards, 63, Raghunathapura, Devanahalli Road, Bengaluru, Karnataka 562110",
     date: formatISO(addDays(now, 19)),
     tags: ["Food", "Wine", "Experience"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "wine glasses",
   },
   {
@@ -235,7 +236,7 @@ export const mockEvents: Event[] = [
     address: "Ranga Shankara, 36/2, 8th Cross Rd, R K Colony, 2nd Phase, J. P. Nagar, Bengaluru, Karnataka 560078",
     date: formatISO(addDays(now, 20)),
     tags: ["Theatre", "Drama", "Entertainment"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "theater stage",
   },
   {
@@ -245,7 +246,7 @@ export const mockEvents: Event[] = [
     address: "KTPO, Whitefield, Bengaluru, Karnataka 560066",
     date: formatISO(addDays(now, 21)),
     tags: ["Comic Con", "Pop Culture", "Cosplay"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "comic books",
   },
   {
@@ -255,7 +256,7 @@ export const mockEvents: Event[] = [
     address: "The Courtyard Community, 105, KH Road, Lalbagh Double Road, Shanti Nagar, Bengaluru, Karnataka 560027",
     date: formatISO(addDays(now, 22)),
     tags: ["Workshop", "Sustainability", "Eco-friendly"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "sustainable living",
   },
   {
@@ -265,7 +266,7 @@ export const mockEvents: Event[] = [
     address: "Gilly's Restobar, 91, Jyoti Nivas College Road, 5th Block, Koramangala, Bengaluru, Karnataka 560095",
     date: formatISO(addDays(now, 23)),
     tags: ["Music", "Karaoke", "Social"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "karaoke microphone",
   },
   {
@@ -275,7 +276,7 @@ export const mockEvents: Event[] = [
     address: "Lavonne Academy of Baking Science and Pastry Arts, 2nd Phase, 263, 3rd Main Rd, Stage 2, Domlur, Bengaluru, Karnataka 560071",
     date: formatISO(addDays(now, 24)),
     tags: ["Food", "Workshop", "Baking"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "sourdough bread",
   },
   {
@@ -285,7 +286,7 @@ export const mockEvents: Event[] = [
     address: "Sunday Soul Sante, Jayamahal Palace Hotel, Jayamahal Main Road, Bengaluru, Karnataka 560006",
     date: formatISO(addDays(now, 25)),
     tags: ["Market", "Shopping", "Vintage"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/847ca2/d1e8ce.png",
     "data-ai-hint": "flea market",
   },
   {
@@ -295,7 +296,7 @@ export const mockEvents: Event[] = [
     address: "Chowdiah Memorial Hall, 16th Cross, G.D. Park Extension, 2nd Main Road, Malleswaram, Bengaluru, Karnataka 560003",
     date: formatISO(addDays(now, 26)),
     tags: ["Music", "Classical", "Culture"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/c2e0be/3a384a.png",
     "data-ai-hint": "sitar instrument",
   },
   {
@@ -305,7 +306,7 @@ export const mockEvents: Event[] = [
     address: "Equilibrium Climbing Station, 606, 6th floor, Devatha Plaza, Residency Rd, Bengaluru, Karnataka 560025",
     date: formatISO(addDays(now, 27)),
     tags: ["Adventure", "Sports", "Climbing"],
-    imageUrl: "https://placehold.co/600x400.png",
+    imageUrl: "https://placehold.co/600x400/d9e8c4/847ca2.png",
     "data-ai-hint": "rock climbing",
   },
 ];
