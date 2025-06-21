@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { suggestActivities, type SuggestActivitiesOutput } from "@/ai/flows/suggest-activities";
+import { generateEventImage } from "@/ai/flows/generate-event-image";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,7 +25,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Wand2, Zap, MapPin } from "lucide-react";
+import { Wand2, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
@@ -35,9 +37,10 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 type Suggestion = SuggestActivitiesOutput['suggestions'][0];
+type SuggestionWithImage = Suggestion & { imageUrl?: string };
 
 export function SceneBot() {
-  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [suggestions, setSuggestions] = useState<SuggestionWithImage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -55,7 +58,29 @@ export function SceneBot() {
     try {
       const result = await suggestActivities({ interest: values.interest });
       if (result.suggestions) {
+        // Set initial suggestions so user sees text results first
         setSuggestions(result.suggestions);
+
+        // Generate images for each suggestion
+        const imagePromises = result.suggestions.map((suggestion) =>
+          generateEventImage({
+            title: suggestion.title,
+            description: suggestion.description,
+          }).catch((err) => {
+            console.error("Image generation failed for:", suggestion.title, err);
+            return { imageUrl: null }; // Handle failure for a single image
+          })
+        );
+
+        const imageResults = await Promise.all(imagePromises);
+
+        // Update suggestions with the new images
+        setSuggestions((currentSuggestions) =>
+          currentSuggestions.map((suggestion, index) => ({
+            ...suggestion,
+            imageUrl: imageResults[index]?.imageUrl || undefined,
+          }))
+        );
       }
     } catch (e) {
       setError("Sorry, the AI is taking a break. Please try again later.");
@@ -114,17 +139,26 @@ export function SceneBot() {
           <div className="space-y-4">
             {suggestions.map((suggestion, index) => (
               <Card key={index} className="overflow-hidden">
+                {suggestion.imageUrl ? (
+                    <div className="relative aspect-video w-full">
+                      <Image
+                        src={suggestion.imageUrl}
+                        alt={suggestion.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="aspect-video w-full animate-pulse bg-muted" />
+                  )}
                 <CardHeader>
-                  <CardTitle className="flex items-start gap-3">
-                    <Zap className="h-5 w-5 mt-1 flex-shrink-0 text-primary" />
-                    <span>{suggestion.title}</span>
-                  </CardTitle>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground pl-8 -mt-2">
+                  <CardTitle>{suggestion.title}</CardTitle>
+                   <CardDescription className="flex items-center gap-2 pt-1">
                       <MapPin className="h-4 w-4" />
                       <span>{suggestion.location}</span>
-                  </div>
+                  </CardDescription>
                 </CardHeader>
-                <CardContent className="pl-8">
+                <CardContent>
                   <p className="text-foreground/90 mb-4">{suggestion.description}</p>
                   <Badge variant="secondary">{suggestion.category}</Badge>
                 </CardContent>
