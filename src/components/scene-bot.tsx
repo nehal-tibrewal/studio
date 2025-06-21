@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -57,36 +58,42 @@ export function SceneBot() {
     setSuggestions([]);
     try {
       const result = await suggestActivities({ interest: values.interest });
-      if (result.suggestions) {
-        // Set initial suggestions so user sees text results first
+      setIsLoading(false); // Stop loading state for button
+
+      if (result.suggestions && result.suggestions.length > 0) {
+        // Set initial suggestions so user sees text results first.
+        // Image URLs will be undefined, so the UI will show loading placeholders.
         setSuggestions(result.suggestions);
 
-        // Generate images for each suggestion
-        const imagePromises = result.suggestions.map((suggestion) =>
+        // Now, generate and update images one by one as they complete.
+        result.suggestions.forEach((suggestion, index) => {
           generateEventImage({
             title: suggestion.title,
             description: suggestion.description,
-          }).catch((err) => {
-            console.error("Image generation failed for:", suggestion.title, err);
-            return { imageUrl: null }; // Handle failure for a single image
           })
-        );
-
-        const imageResults = await Promise.all(imagePromises);
-
-        // Update suggestions with the new images
-        setSuggestions((currentSuggestions) =>
-          currentSuggestions.map((suggestion, index) => ({
-            ...suggestion,
-            imageUrl: imageResults[index]?.imageUrl || undefined,
-          }))
-        );
+            .then((imageResult) => {
+              if (imageResult?.imageUrl) {
+                setSuggestions((currentSuggestions) =>
+                  // Create a new array with the updated item
+                  currentSuggestions.map((s, i) =>
+                    i === index ? { ...s, imageUrl: imageResult.imageUrl } : s
+                  )
+                );
+              }
+            })
+            .catch((err) => {
+              console.error(
+                `Image generation failed for "${suggestion.title}":`,
+                err
+              );
+              // Optionally handle the image error in the UI
+            });
+        });
       }
     } catch (e) {
       setError("Sorry, the AI is taking a break. Please try again later.");
       console.error(e);
-    } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Also stop loading on error.
     }
   }
 
