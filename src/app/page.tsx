@@ -23,24 +23,34 @@ export default function Home() {
     // Filter mock events for upcoming ones
     let upcomingMockEvents = mockEvents.filter(event => isAfter(new Date(event.date), now));
 
-    // Initial render with placeholders to prevent layout shift and show content quickly
-    setEvents(upcomingMockEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()));
+    // Initial render with placeholders
+    const sortedEvents = upcomingMockEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    setEvents(sortedEvents);
     
-    // Asynchronously generate images for the mock events
-    upcomingMockEvents.forEach(event => {
-      // Only generate if it's a placeholder
-      if (event.imageUrl && (event.imageUrl.includes('placehold.co') || !event.imageUrl.startsWith('https'))) {
-        generateEventImage({ title: event.title, description: event.description })
-          .then(result => {
+    // Asynchronously generate images for the mock events sequentially to avoid rate limits
+    const generateImagesSequentially = async (eventsToProcess: Event[]) => {
+      for (const event of eventsToProcess) {
+        // Only generate if it's a placeholder
+        if (event.imageUrl && (event.imageUrl.includes('placehold.co') || !event.imageUrl.startsWith('https'))) {
+          try {
+            const result = await generateEventImage({ title: event.title, description: event.description });
             if (result.imageUrl) {
               setEvents(currentEvents => 
                 currentEvents.map(e => e.id === event.id ? { ...e, imageUrl: result.imageUrl } : e)
               );
             }
-          })
-          .catch(e => console.error(`Failed to generate image for ${event.title}:`, e));
+            // Respect API rate limits by waiting between requests (free tier is 10/min)
+            await new Promise(resolve => setTimeout(resolve, 7000)); // Wait 7 seconds
+          } catch (e) {
+            console.error(`Failed to generate image for "${event.title}":`, e);
+            // If there's an error (like a rate limit), wait longer before trying the next one.
+            await new Promise(resolve => setTimeout(resolve, 15000));
+          }
+        }
       }
-    });
+    };
+
+    generateImagesSequentially(sortedEvents);
 
     if (db) {
       // If firebase is configured, listen for real-time updates
